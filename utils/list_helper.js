@@ -7,14 +7,17 @@ const totalLikes = (blogs) => (
 );
 
 const favoriteBlog = (blogs) => {
-  const favB = blogs.length === 0
-    ? {}
-    : blogs.reduce((curMax, nextBlog) => curMax > nextBlog, blogs[0]);
+  if (blogs.length === 0) { return {}; }
+
+  const favouriteBlogValues = blogs.reduce((curMax, nextBlog) => (
+    curMax.likes > nextBlog.likes
+      ? curMax
+      : nextBlog), blogs[0]);
 
   return {
-    title: favB.title,
-    author: favB.author,
-    likes: favB.likes,
+    title: favouriteBlogValues.title,
+    author: favouriteBlogValues.author,
+    likes: favouriteBlogValues.likes,
   };
 };
 
