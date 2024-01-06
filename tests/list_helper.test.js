@@ -126,6 +126,14 @@ const listWithTwoBlogsWithMaxLikes = [
     __v: 0,
   },
   {
+    _id: '6599d7c54f2ee77652c9a6c9',
+    title: 'A methodological remark on mathematical induction',
+    author: 'Edsger W. Dijkstra',
+    url: 'https://www.cs.utexas.edu/~EWD/ewd10xx/EWD1004.PDF',
+    likes: 5,
+    __v: 0,
+  },
+  {
     _id: '659966da68cd46aa8ff87a5a',
     title: 'Netflix Tech Blog',
     author: 'Netflix',
@@ -347,13 +355,32 @@ describe('mostBlogs should return the author with the most blogs in the list and
         listOfAuthors[j].blogs += 1;
       }
     }
-  };
+  }
   const mostProlificAuthor = listOfAuthors.reduce(
     (mostProlific, nextA) => (mostProlific.blogs > nextA.blogs ? mostProlific : nextA),
   );
-
   test('mostBlogs should return an object listing the most prolific author out of a list of many blogs', () => {
     expect(listHelper.mostBlogs(listWithManyBlogs))
       .toStrictEqual(mostProlificAuthor);
+  });
+
+  const listOfAuthorsTwo = listWithTwoBlogsWithMaxLikes.map(
+    (b) => ({ author: b.author, blogs: 0 }),
+  );
+  let maxPubs = 0;
+  for (let i = 0; i < listWithTwoBlogsWithMaxLikes.length; i++) {
+    for (let j = 0; j < listOfAuthorsTwo.length; j++) {
+      if (listWithTwoBlogsWithMaxLikes[i].author === listOfAuthorsTwo[j].author) {
+        listOfAuthorsTwo[j].blogs += 1;
+        if (listOfAuthorsTwo[j].blogs > maxPubs) {
+          maxPubs = listOfAuthorsTwo[j].blogs;
+        }
+      }
+    }
+  }
+  const mostProlificAuthors = listOfAuthors.filter((ab) => ab.blogs === maxPubs);
+  test('mostBlogs should return an object listing one of the most prolific authors if there are multiple authors with the maximum number of blogs', () => {
+    expect(listHelper.mostBlogs(listWithManyBlogs))
+      .toBeOneOf(mostProlificAuthors);
   });
 });
