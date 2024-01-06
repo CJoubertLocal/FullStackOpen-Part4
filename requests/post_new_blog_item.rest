@@ -27,3 +27,23 @@ Content-Type: application/json
     "url": "https://www.crunchydata.com/blog",
     "likes": 75
 }
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "The Asia-Pacific Journal: Japan Focus",
+    "author": "Various",
+    "url": "https://apjjf.org/",
+    "likes": 80
+}
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Tae Kim's Guide to Learning Japaneses",
+    "author": "Tae Kim",
+    "url": "https://guidetojapanese.org/learn/category/blog/",
+    "likes": 200
+}
