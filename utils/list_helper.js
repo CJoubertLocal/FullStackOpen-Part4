@@ -37,9 +37,28 @@ const mostBlogs = (blogs) => (
     )
 );
 
+// TODO: This looks elegant, but deeply inefficient.
+const mostLikes = (blogs) => (
+  blogs.length === 0
+    ? {}
+    : lodash.maxBy(
+      blogs
+        .map((b) => b.author)
+        .map((a) => ({
+          author: a,
+          likes: lodash.sumBy(
+            blogs.filter((b) => b.author === a),
+            'likes',
+          ),
+        })),
+      'likes',
+    )
+);
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 };

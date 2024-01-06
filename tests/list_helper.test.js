@@ -1,7 +1,8 @@
 require('jest');
-require('jest-extended')
+require('jest-extended');
 
-const listHelper = require('../utils/list_helper')
+const lodash = require('lodash');
+const listHelper = require('../utils/list_helper');
 
 const listWithOneBlog = [
   {
@@ -207,6 +208,41 @@ const listWithTwoBlogsWithMaxLikes = [
   },
 ];
 
+const listWhereAllAuthorsHaveTheSameTotalNumberOfLikesAcrossBlogs = [
+  {
+    _id: '5a422aa71b54a676234d17f8',
+    title: 'Go To Statement Considered Harmful',
+    author: 'Edsger W. Dijkstra',
+    url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+    likes: 180,
+    __v: 0,
+  },
+  {
+    _id: '5a422b3a1b54a676234d17f9',
+    title: 'Canonical string reduction',
+    author: 'Edsger W. Dijkstra',
+    url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+    likes: 20,
+    __v: 0,
+  },
+  {
+    _id: '5a422b891b54a676234d17fa',
+    title: 'First class tests',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
+    likes: 100,
+    __v: 0,
+  },
+  {
+    _id: '5a422ba71b54a676234d17fb',
+    title: 'TDD harms architecture',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
+    likes: 100,
+    __v: 0,
+  },
+];
+
 test('dummy returns one', () => {
   const blogs = [];
 
@@ -299,7 +335,7 @@ describe('favourite blog', () => {
       favouriteOfMany = listWithTwoBlogsWithMaxLikes[i];
     }
   }
-  test('favouriteBlog of an array of many blogs should return of the blogs with the greatest number of likes', () => {
+  test('favouriteBlog of an array of many blogs should return any of the blogs with the greatest number of likes if there is a tie', () => {
     expect(listHelper.favoriteBlog(listWithTwoBlogsWithMaxLikes))
       .toBeOneOf(
         [
@@ -349,8 +385,8 @@ describe('mostBlogs should return the author with the most blogs in the list and
   });
 
   const listOfAuthors = listWithManyBlogs.map((b) => ({ author: b.author, blogs: 0 }));
-  for (let i = 0; i < listWithManyBlogs.length; i++) {
-    for (let j = 0; j < listOfAuthors.length; j++) {
+  for (let i = 0; i < listWithManyBlogs.length; i += 1) {
+    for (let j = 0; j < listOfAuthors.length; j += 1) {
       if (listWithManyBlogs[i].author === listOfAuthors[j].author) {
         listOfAuthors[j].blogs += 1;
       }
@@ -368,8 +404,8 @@ describe('mostBlogs should return the author with the most blogs in the list and
     (b) => ({ author: b.author, blogs: 0 }),
   );
   let maxPubs = 0;
-  for (let i = 0; i < listWithTwoBlogsWithMaxLikes.length; i++) {
-    for (let j = 0; j < listOfAuthorsTwo.length; j++) {
+  for (let i = 0; i < listWithTwoBlogsWithMaxLikes.length; i += 1) {
+    for (let j = 0; j < listOfAuthorsTwo.length; j += 1) {
       if (listWithTwoBlogsWithMaxLikes[i].author === listOfAuthorsTwo[j].author) {
         listOfAuthorsTwo[j].blogs += 1;
         if (listOfAuthorsTwo[j].blogs > maxPubs) {
@@ -382,5 +418,67 @@ describe('mostBlogs should return the author with the most blogs in the list and
   test('mostBlogs should return an object listing one of the most prolific authors if there are multiple authors with the maximum number of blogs', () => {
     expect(listHelper.mostBlogs(listWithManyBlogs))
       .toBeOneOf(mostProlificAuthors);
+  });
+});
+
+describe('mostLikes should return the author with the most likes across blogs', () => {
+  test('mostLikes of empty list should return {}', () => {
+    expect(listHelper.mostLikes([])).toStrictEqual({});
+  });
+
+  test('mostLikes of list with one blog should return the likes for that list', () => {
+    expect(listHelper.mostLikes(listWithOneBlog)).toStrictEqual({
+      author: listWithOneBlog[0].author,
+      likes: listWithOneBlog[0].likes,
+    });
+  });
+
+  const mostLikedBlogOfTwo = (
+    listWithTwoBlogs[0].likes > listWithTwoBlogs[1].likes
+      ? {
+        author: listWithTwoBlogs[0].author,
+        likes: listWithTwoBlogs[0].likes,
+      }
+      : {
+        author: listWithTwoBlogs[1].author,
+        likes: listWithTwoBlogs[1].likes,
+      }
+  );
+  test('mostLikes of list with two blogs should return the author with the most likes across the two blogs', () => {
+    expect(listHelper.mostLikes(listWithTwoBlogs)).toStrictEqual(mostLikedBlogOfTwo);
+  });
+
+  const listOfAuthors = listWithManyBlogs.map((b) => (
+    { author: b.author, likes: 0 }));
+  for (let i = 0; i < listWithManyBlogs.length; i += 1) {
+    for (let j = 0; j < listOfAuthors.length; j += 1) {
+      if (listWithManyBlogs[i].author === listOfAuthors[j].author) {
+        listOfAuthors[j].likes += listWithManyBlogs[i].likes;
+      }
+    }
+  }
+  const authorWithMostLikes = lodash.maxBy(listOfAuthors, 'likes');
+  test('mostLikes of list with many blogs should return the author with the most likes across blogs in the list', () => {
+    expect(listHelper.mostLikes(listWithManyBlogs)).toStrictEqual(authorWithMostLikes);
+  });
+
+  const listOfAuthorsTwo = listWhereAllAuthorsHaveTheSameTotalNumberOfLikesAcrossBlogs.map((b) => (
+    { author: b.author, likes: 0 }));
+  for (
+    let i = 0;
+    i < listWhereAllAuthorsHaveTheSameTotalNumberOfLikesAcrossBlogs.length;
+    i += 1) {
+    for (let j = 0; j < listOfAuthorsTwo.length; j += 1) {
+      if (listWhereAllAuthorsHaveTheSameTotalNumberOfLikesAcrossBlogs[i].author
+        === listOfAuthorsTwo[j].author) {
+        listOfAuthorsTwo[j].likes
+          += listWhereAllAuthorsHaveTheSameTotalNumberOfLikesAcrossBlogs[i].likes;
+      }
+    }
+  }
+  test('mostLikes of list with many blogs should return any of the authors with the most likes across blogs in the list if there is a tie', () => {
+    expect(listHelper.mostLikes(
+      listWhereAllAuthorsHaveTheSameTotalNumberOfLikesAcrossBlogs,
+    )).toBeOneOf(listOfAuthorsTwo);
   });
 });
