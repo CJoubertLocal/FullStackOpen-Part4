@@ -7,3 +7,23 @@ Content-Type: application/json
     "url": "https://netflixtechblog.com/",
     "likes": 50
 }
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "The GitHub Blog",
+    "author": "GitHub",
+    "url": "https://github.blog/category/engineering/",
+    "likes": 150
+}
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "PostgreSQL Blog",
+    "author": "Crunchy Data",
+    "url": "https://www.crunchydata.com/blog",
+    "likes": 75
+}
