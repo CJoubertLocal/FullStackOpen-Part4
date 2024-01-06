@@ -310,3 +310,50 @@ describe('favourite blog', () => {
       );
   });
 });
+
+describe('mostBlogs should return the author with the most blogs in the list and the number of associated blogs', () => {
+  test('mostBlogs should return an empty object for an empty list', () => {
+    expect(listHelper.mostBlogs([])).toStrictEqual({});
+  });
+
+  test('mostBlogs should return an object listing one blog a list with one entry', () => {
+    expect(listHelper.mostBlogs(listWithOneBlog))
+      .toStrictEqual({
+        author: listWithOneBlog[0].author,
+        blogs: 1,
+      });
+  });
+
+  test('mostBlogs should return an object listing one of either author in a list with two entries where the authors are different', () => {
+    expect(listHelper.mostBlogs(listWithTwoBlogs))
+      .toBeOneOf(
+        [
+          {
+            author: listWithTwoBlogs[0].author,
+            blogs: 1,
+          },
+          {
+            author: listWithTwoBlogs[1].author,
+            blogs: 1,
+          },
+        ],
+      );
+  });
+
+  const listOfAuthors = listWithManyBlogs.map((b) => ({ author: b.author, blogs: 0 }));
+  for (let i = 0; i < listWithManyBlogs.length; i++) {
+    for (let j = 0; j < listOfAuthors.length; j++) {
+      if (listWithManyBlogs[i].author === listOfAuthors[j].author) {
+        listOfAuthors[j].blogs += 1;
+      }
+    }
+  };
+  const mostProlificAuthor = listOfAuthors.reduce(
+    (mostProlific, nextA) => (mostProlific.blogs > nextA.blogs ? mostProlific : nextA),
+  );
+
+  test('mostBlogs should return an object listing the most prolific author out of a list of many blogs', () => {
+    expect(listHelper.mostBlogs(listWithManyBlogs))
+      .toStrictEqual(mostProlificAuthor);
+  });
+});
