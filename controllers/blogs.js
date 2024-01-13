@@ -11,6 +11,10 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body);
 
+  if (!Object.prototype.hasOwnProperty.call(blog, 'likes')) {
+    blog.likes = 0;
+  }
+
   const res = await blog
     .save()
     .then((result) => {

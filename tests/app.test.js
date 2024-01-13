@@ -51,7 +51,6 @@ describe('push handler tests', () => {
       title: 'test blog title',
       author: 'test author',
       url: 'testblog.test',
-      likes: 5,
     };
 
     await api.post('/api/blogs').send(newBlog).expect(201);
@@ -62,5 +61,8 @@ describe('push handler tests', () => {
 
     expect(response.body[response.body.length - 1].url)
       .toContain('testblog.test');
+
+    expect(response.body[response.body.length - 1].likes)
+      .toEqual(0);
   });
 });
