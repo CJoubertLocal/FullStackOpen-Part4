@@ -3,24 +3,30 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "lodash": "^4.17.21",
     "mongoose": "^7.6.5",
     "nodemon": "^3.0.2"
   },
   "scripts": {
-    "start": "node index.js",
-    "test": "jest --verbose",
-    "dev": "nodemon index.js",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "lint": "eslint ."
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.1",
     "jest": "^29.7.0",
-    "jest-extended": "^4.0.2"
+    "jest-extended": "^4.0.2",
+    "supertest": "^6.3.3"
   },
   "jest": {
     "testEnvironment": "node",
-    "setupFilesAfterEnv": ["jest-extended/all"]
+    "setupFilesAfterEnv": [
+      "jest-extended/all"
+    ],
+    "globalTeardown": "./tests/teardown.js"
   }
 }

@@ -47,3 +47,13 @@ Content-Type: application/json
     "url": "https://guidetojapanese.org/learn/category/blog/",
     "likes": 200
 }
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "A methodological remark on mathematical induction",
+    "author": "Edsger W. Dijkstra",
+    "url": "https://www.cs.utexas.edu/~EWD/ewd10xx/EWD1004.PDF",
+    "likes": 5
+}
