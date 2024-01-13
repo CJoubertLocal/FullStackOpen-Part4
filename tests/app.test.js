@@ -44,3 +44,23 @@ describe('get handler tests', () => {
 afterAll(async () => {
   await mongoose.connection.close();
 });
+
+describe('push handler tests', () => {
+  test('number of items in the list should be one greater after adding a blog', async () => {
+    const newBlog = {
+      title: 'test blog title',
+      author: 'test author',
+      url: 'testblog.test',
+      likes: 5,
+    };
+
+    await api.post('/api/blogs').send(newBlog).expect(201);
+
+    const response = await api.get('/api/blogs');
+    expect(response.body)
+      .toHaveLength(initialBlogs.listWithManyBlogs.length + 1);
+
+    expect(response.body[response.body.length - 1].url)
+      .toContain('testblog.test');
+  });
+});
