@@ -33,6 +33,12 @@ describe('get handler tests', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
   });
+
+  test('get should return blogs with \'id\' instead of \'_id\' as the identifier', async () => {
+    const response = await api.get('/api/blogs');
+    expect(response.body[0].id)
+      .toBeDefined();
+  });
 });
 
 afterAll(async () => {
