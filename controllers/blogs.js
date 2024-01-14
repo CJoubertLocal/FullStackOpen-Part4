@@ -9,14 +9,9 @@ blogRouter.get('/', async (request, response) => {
 });
 
 blogRouter.get('/:id', async (request, response) => {
-  try {
-    const blogToGet = await Blog
-      .findById(request.params.id);
-
-    return response.json(blogToGet);
-  } catch (exception) {
-    return response.status(400).json(exception);
-  }
+  const blogToGet = await Blog
+    .findById(request.params.id);
+  response.status(200).json(blogToGet);
 });
 
 blogRouter.post('/', async (request, response) => {
@@ -43,35 +38,19 @@ blogRouter.put('/:id', async (request, response) => {
     likes: request.body.likes,
   };
 
-  try {
-    const res = await Blog
-      .findOneAndUpdate({ _id: request.params.id }, update, {
-        new: true,
-        runValidators: true,
-        context: 'query',
-      })
-      .then((updatedBlog) => {
-        response.json(updatedBlog);
-      });
-
-    return res;
-  } catch (exception) {
-    return response.status(400).json(exception);
-  }
+  const updatedBlog = await Blog
+    .findOneAndUpdate({ _id: request.params.id }, update, {
+      new: true,
+      runValidators: true,
+      context: 'query',
+    });
+  response.json(updatedBlog);
 });
 
 blogRouter.delete('/:id', async (request, response) => {
-  try {
-    const res = await Blog
-      .findByIdAndDelete(request.params.id)
-      .then(() => {
-        response.status(204).end();
-      });
-
-    return res;
-  } catch (exception) {
-    return response.status(400).json(exception);
-  }
+  await Blog
+    .findByIdAndDelete(request.params.id);
+  response.status(204).end();
 });
 
 module.exports = blogRouter;
