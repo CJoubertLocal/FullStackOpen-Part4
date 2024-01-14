@@ -41,16 +41,13 @@ describe('get handler tests', () => {
   });
 });
 
-afterAll(async () => {
-  await mongoose.connection.close();
-});
-
 describe('push handler tests', () => {
   test('number of items in the list should be one greater after adding a blog', async () => {
     const newBlog = {
       title: 'test blog title',
       author: 'test author',
       url: 'testblog.test',
+      likes: 5,
     };
 
     await api.post('/api/blogs').send(newBlog).expect(201);
@@ -61,8 +58,62 @@ describe('push handler tests', () => {
 
     expect(response.body[response.body.length - 1].url)
       .toContain('testblog.test');
+  });
+
+  test('new blogs with no likes value should default to 0 likes', async () => {
+    const newBlog = {
+      title: 'test blog title',
+      author: 'test author',
+      url: 'testblog.test',
+    };
+
+    await api.post('/api/blogs').send(newBlog).expect(201);
+
+    const response = await api.get('/api/blogs');
 
     expect(response.body[response.body.length - 1].likes)
       .toEqual(0);
   });
+
+  test('new blogs without a title field should not be accepted and should result in error ode 400', async () => {
+    const newBlog = {
+      author: 'test author',
+      url: 'testblog.test',
+    };
+
+    await api.post('/api/blogs').send(newBlog).expect(400);
+  }, 10000);
+
+  test('new blogs with an empty title field should not be accepted and should result in error ode 400', async () => {
+    const newBlog = {
+      title: '',
+      author: 'test author',
+      url: 'testblog.test',
+    };
+
+    await api.post('/api/blogs').send(newBlog).expect(400);
+  }, 10000);
+
+  test('new blogs without a url field should not be accepted and should result in error ode 400', async () => {
+    const newBlog = {
+      title: 'test blog title',
+      author: 'test author',
+    };
+
+    await api.post('/api/blogs').send(newBlog).expect(400);
+  }, 10000);
+
+  test('new blogs with an empty url field should not be accepted and should result in error ode 400', async () => {
+    const newBlog = {
+      title: 'test blog title',
+      author: 'test author',
+      url: '',
+    };
+
+    await api.post('/api/blogs').send(newBlog).expect(400);
+  }, 10000);
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
 });
