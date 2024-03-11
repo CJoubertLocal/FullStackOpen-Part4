@@ -1,6 +1,8 @@
 const lodash = require('lodash');
 
-const dummy = (blogs) => 1;
+const User = require('../models/users');
+
+const dummy = () => 1;
 
 const totalLikes = (blogs) => (
   blogs.length === 0
@@ -55,10 +57,16 @@ const mostLikes = (blogs) => (
     )
 );
 
+const usersInDb = async () => {
+  const users = await User.find({});
+  return users.map((u) => u.toJSON());
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
   mostLikes,
+  usersInDb,
 };

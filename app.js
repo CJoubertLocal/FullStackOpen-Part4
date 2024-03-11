@@ -13,7 +13,9 @@ app.use(cors());
 app.use(express.json());
 
 const BlogRouter = require('./controllers/blogs');
+const UserRouter = require('./controllers/users');
 
 app.use('/api/blogs', BlogRouter);
+app.use('/api/users', UserRouter);
 
 module.exports = app;
