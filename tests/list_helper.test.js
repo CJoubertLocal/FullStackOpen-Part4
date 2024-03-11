@@ -1,5 +1,5 @@
-require('jest');
-require('jest-extended');
+const { test, describe } = require('node:test');
+const assert = require('node:assert');
 
 const lodash = require('lodash');
 const {
@@ -14,22 +14,24 @@ const listHelper = require('../utils/list_helper');
 test('dummy returns one', () => {
   const blogs = [];
 
-  expect(listHelper.dummy(blogs)).toBe(1);
+  const results = listHelper.dummy(blogs);
+  assert.strictEqual(results, 1);
 });
 
 describe('totalLikes', () => {
   test('totalLikes of an empty array of blogs should be 0', () => {
-    expect(listHelper.totalLikes([])).toBe(0);
+    const result = listHelper.totalLikes([]);
+    assert.strictEqual(result, 0);
   });
 
   test('totalLikes of array of one element should return the likes value of that element', () => {
-    expect(listHelper.totalLikes(listWithOneBlog)).toBe(listWithOneBlog[0].likes);
+    const res = listHelper.totalLikes(listWithOneBlog);
+    assert.strictEqual(res, listWithOneBlog[0].likes);
   });
 
   test('totalLikes of array of two elements should return the sum of the like values of those elements', () => {
-    expect(
-      listHelper.totalLikes(listWithTwoBlogs),
-    ).toBe(listWithTwoBlogs[0].likes + listWithTwoBlogs[1].likes);
+    const res = listHelper.totalLikes(listWithTwoBlogs);
+    assert.strictEqual(res, listWithTwoBlogs[0].likes + listWithTwoBlogs[1].likes);
   });
 
   let sumOfLikesInListOfManyBlogs = 0;
@@ -38,36 +40,36 @@ describe('totalLikes', () => {
     sumOfLikesInListOfManyBlogs += listWithManyBlogs[i].likes;
   }
   test('totalLikes of array of two elements should return the sum of the like values of those elements', () => {
-    expect(
-      listHelper.totalLikes(listWithManyBlogs),
-    ).toBe(sumOfLikesInListOfManyBlogs);
+    const res = listHelper.totalLikes(listWithManyBlogs);
+    assert.strictEqual(res, sumOfLikesInListOfManyBlogs);
   });
 });
 
 describe('favourite blog', () => {
   test('favoriteBlog of an empty array should return an empty object', () => {
-    expect(listHelper.favoriteBlog([])).toStrictEqual({});
+    const res = listHelper.favoriteBlog([]);
+    assert.deepStrictEqual(res, {});
   });
 
   test('favouriteBlog of an array of one blog should return that blog', () => {
-    expect(listHelper.favoriteBlog(listWithOneBlog))
-      .toStrictEqual({
-        title: 'Go To Statement Considered Harmful',
-        author: 'Edsger W. Dijkstra',
-        likes: 5,
-      });
+    const res = listHelper.favoriteBlog(listWithOneBlog);
+    assert.deepStrictEqual(res, {
+      title: 'Go To Statement Considered Harmful',
+      author: 'Edsger W. Dijkstra',
+      likes: 5,
+    });
   });
 
   const favouriteOfTwoBlogs = listWithTwoBlogs[0].likes > listWithTwoBlogs[1].likes
     ? listWithTwoBlogs[0]
     : listWithTwoBlogs[1];
   test('favouriteBlog of an array of two blogs should return the blog with the greater number of likes', () => {
-    expect(listHelper.favoriteBlog(listWithTwoBlogs))
-      .toStrictEqual({
-        title: favouriteOfTwoBlogs.title,
-        author: favouriteOfTwoBlogs.author,
-        likes: favouriteOfTwoBlogs.likes,
-      });
+    const res = listHelper.favoriteBlog(listWithTwoBlogs);
+    assert.deepStrictEqual(res, {
+      title: favouriteOfTwoBlogs.title,
+      author: favouriteOfTwoBlogs.author,
+      likes: favouriteOfTwoBlogs.likes,
+    });
   });
 
   let favouriteOfMany = listWithTwoBlogs[0];
@@ -79,12 +81,12 @@ describe('favourite blog', () => {
     }
   }
   test('favouriteBlog of an array of many blogs should return of the blogs with the greatest number of likes', () => {
-    expect(listHelper.favoriteBlog(listWithManyBlogs))
-      .toStrictEqual({
-        title: favouriteOfMany.title,
-        author: favouriteOfMany.author,
-        likes: favouriteOfMany.likes,
-      });
+    const res = listHelper.favoriteBlog(listWithManyBlogs);
+    assert.deepStrictEqual(res, {
+      title: favouriteOfMany.title,
+      author: favouriteOfMany.author,
+      likes: favouriteOfMany.likes,
+    });
   });
 
   const maximumNumberOfLikesInBlogList = listWithTwoBlogsWithMaxLikes
@@ -96,60 +98,54 @@ describe('favourite blog', () => {
   const twoBlogsWithMaximumNumberOfLikesInList = listWithTwoBlogsWithMaxLikes
     .filter((b) => b.likes === maximumNumberOfLikesInBlogList);
 
-  // eslint-disable-next-line no-plusplus
-  for (let i = 1; i < listWithTwoBlogsWithMaxLikes.length; i++) {
-    if (listWithTwoBlogsWithMaxLikes[i].likes > listWithTwoBlogsWithMaxLikes.likes) {
-      // eslint-disable-next-line no-const-assign
-      favouriteOfMany = listWithTwoBlogsWithMaxLikes[i];
-    }
-  }
+  // NOTE: Jest was more ergonomic than this...
   test('favouriteBlog of an array of many blogs should return any of the blogs with the greatest number of likes if there is a tie', () => {
-    expect(listHelper.favoriteBlog(listWithTwoBlogsWithMaxLikes))
-      .toBeOneOf(
-        [
-          {
-            title: twoBlogsWithMaximumNumberOfLikesInList[0].title,
-            author: twoBlogsWithMaximumNumberOfLikesInList[0].author,
-            likes: twoBlogsWithMaximumNumberOfLikesInList[0].likes,
-          },
-          {
-            title: twoBlogsWithMaximumNumberOfLikesInList[1].title,
-            author: twoBlogsWithMaximumNumberOfLikesInList[1].author,
-            likes: twoBlogsWithMaximumNumberOfLikesInList[1].likes,
+    const res = listHelper.favoriteBlog(listWithTwoBlogsWithMaxLikes);
 
-          },
-        ],
-      );
+    try {
+      assert.deepStrictEqual(res, {
+        title: twoBlogsWithMaximumNumberOfLikesInList[0].title,
+        author: twoBlogsWithMaximumNumberOfLikesInList[0].author,
+        likes: twoBlogsWithMaximumNumberOfLikesInList[0].likes,
+      });
+    } catch {
+      assert.deepStrictEqual(res, {
+        title: twoBlogsWithMaximumNumberOfLikesInList[1].title,
+        author: twoBlogsWithMaximumNumberOfLikesInList[1].author,
+        likes: twoBlogsWithMaximumNumberOfLikesInList[1].likes,
+      });
+    }
   });
 });
 
 describe('mostBlogs should return the author with the most blogs in the list and the number of associated blogs', () => {
   test('mostBlogs should return an empty object for an empty list', () => {
-    expect(listHelper.mostBlogs([])).toStrictEqual({});
+    const res = listHelper.mostBlogs([]);
+    assert.deepStrictEqual(res, {});
   });
 
   test('mostBlogs should return an object listing one blog a list with one entry', () => {
-    expect(listHelper.mostBlogs(listWithOneBlog))
-      .toStrictEqual({
-        author: listWithOneBlog[0].author,
-        blogs: 1,
-      });
+    const res = listHelper.mostBlogs(listWithOneBlog);
+    assert.deepStrictEqual(res, {
+      author: listWithOneBlog[0].author,
+      blogs: 1,
+    });
   });
 
   test('mostBlogs should return an object listing one of either author in a list with two entries where the authors are different', () => {
-    expect(listHelper.mostBlogs(listWithTwoBlogs))
-      .toBeOneOf(
-        [
-          {
-            author: listWithTwoBlogs[0].author,
-            blogs: 1,
-          },
-          {
-            author: listWithTwoBlogs[1].author,
-            blogs: 1,
-          },
-        ],
-      );
+    const res = listHelper.mostBlogs(listWithTwoBlogs);
+
+    try {
+      assert.deepStrictEqual(res, {
+        author: listWithTwoBlogs[0].author,
+        blogs: 1,
+      });
+    } catch {
+      assert.deepStrictEqual(res, {
+        author: listWithTwoBlogs[1].author,
+        blogs: 1,
+      });
+    }
   });
 
   const listOfAuthors = listWithManyBlogs.map((b) => ({ author: b.author, blogs: 0 }));
@@ -163,9 +159,10 @@ describe('mostBlogs should return the author with the most blogs in the list and
   const mostProlificAuthor = listOfAuthors.reduce(
     (mostProlific, nextA) => (mostProlific.blogs > nextA.blogs ? mostProlific : nextA),
   );
+
   test('mostBlogs should return an object listing the most prolific author out of a list of many blogs', () => {
-    expect(listHelper.mostBlogs(listWithManyBlogs))
-      .toStrictEqual(mostProlificAuthor);
+    const res = listHelper.mostBlogs(listWithManyBlogs);
+    assert.deepStrictEqual(res, mostProlificAuthor);
   });
 
   const listOfAuthorsTwo = listWithTwoBlogsWithMaxLikes.map(
@@ -183,19 +180,27 @@ describe('mostBlogs should return the author with the most blogs in the list and
     }
   }
   const mostProlificAuthors = listOfAuthors.filter((ab) => ab.blogs === maxPubs);
+
+  // TODO: Needs to be replaced by a better test framework.
   test('mostBlogs should return an object listing one of the most prolific authors if there are multiple authors with the maximum number of blogs', () => {
-    expect(listHelper.mostBlogs(listWithManyBlogs))
-      .toBeOneOf(mostProlificAuthors);
+    const res = listHelper.mostBlogs(listWithManyBlogs);
+    try {
+      assert.deepStrictEqual(res, mostProlificAuthors[0]);
+    } catch {
+      assert.deepStrictEqual(res, mostProlificAuthors[1]);
+    }
   });
 });
 
 describe('mostLikes should return the author with the most likes across blogs', () => {
   test('mostLikes of empty list should return {}', () => {
-    expect(listHelper.mostLikes([])).toStrictEqual({});
+    const res = listHelper.mostLikes([]);
+    assert.deepStrictEqual(res, {});
   });
 
   test('mostLikes of list with one blog should return the likes for that list', () => {
-    expect(listHelper.mostLikes(listWithOneBlog)).toStrictEqual({
+    const res = listHelper.mostLikes(listWithOneBlog);
+    assert.deepStrictEqual(res, {
       author: listWithOneBlog[0].author,
       likes: listWithOneBlog[0].likes,
     });
@@ -213,7 +218,8 @@ describe('mostLikes should return the author with the most likes across blogs', 
       }
   );
   test('mostLikes of list with two blogs should return the author with the most likes across the two blogs', () => {
-    expect(listHelper.mostLikes(listWithTwoBlogs)).toStrictEqual(mostLikedBlogOfTwo);
+    const res = listHelper.mostLikes(listWithTwoBlogs);
+    assert.deepStrictEqual(res, mostLikedBlogOfTwo);
   });
 
   const listOfAuthors = listWithManyBlogs.map((b) => (
@@ -227,7 +233,8 @@ describe('mostLikes should return the author with the most likes across blogs', 
   }
   const authorWithMostLikes = lodash.maxBy(listOfAuthors, 'likes');
   test('mostLikes of list with many blogs should return the author with the most likes across blogs in the list', () => {
-    expect(listHelper.mostLikes(listWithManyBlogs)).toStrictEqual(authorWithMostLikes);
+    const res = listHelper.mostLikes(listWithManyBlogs);
+    assert.deepStrictEqual(res, authorWithMostLikes);
   });
 
   const listOfAuthorsTwo = listWhereAllAuthorsHaveTheSameTotalNumberOfLikesAcrossBlogs.map((b) => (
@@ -245,8 +252,17 @@ describe('mostLikes should return the author with the most likes across blogs', 
     }
   }
   test('mostLikes of list with many blogs should return any of the authors with the most likes across blogs in the list if there is a tie', () => {
-    expect(listHelper.mostLikes(
-      listWhereAllAuthorsHaveTheSameTotalNumberOfLikesAcrossBlogs,
-    )).toBeOneOf(listOfAuthorsTwo);
+    const res = listHelper.mostLikes(listWhereAllAuthorsHaveTheSameTotalNumberOfLikesAcrossBlogs);
+
+    let foundRes = false;
+
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < listOfAuthorsTwo.length; i++) {
+      if (lodash.isEqual(res, listOfAuthorsTwo[i])) {
+        foundRes = true;
+      }
+    }
+
+    assert.equal(foundRes, true);
   });
 });
