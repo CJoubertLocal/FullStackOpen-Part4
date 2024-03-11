@@ -6,7 +6,6 @@ const app = require('../app');
 const initialBlogs = require('./testData');
 
 const Blog = require('../models/blogs');
-const User = require('../models/users');
 
 const api = supertest(app);
 
