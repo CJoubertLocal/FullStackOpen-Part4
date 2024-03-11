@@ -79,6 +79,68 @@ test('post to /api/blogs should create a new blog post', async () => {
   assert(newBlogFound);
 });
 
+test('post to /api/blogs should default to 0 likes if no "likes" value was provided', async () => {
+  const newBlog = {
+    title: 'A New Test Blog',
+    author: 'Some guy',
+    url: 'http://www.a-test-url.org/a-blog',
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const updatedBlogsList = await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/);
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < updatedBlogsList.body.length; i++) {
+    if (
+      newBlog.title === updatedBlogsList.body[i].title
+      && newBlog.author === updatedBlogsList.body[i].author
+      && newBlog.url === updatedBlogsList.body[i].url
+    ) {
+      assert.strictEqual(updatedBlogsList.body[i].likes, 0);
+    }
+  }
+});
+
+test('post requests to /api/blogs with no title should be rejected', async () => {
+  const newBlog = {
+    author: 'Some guy',
+    url: 'http://www.a-test-url.org/a-blog',
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
+    .expect(400)
+    .expect('Content-Type', /application\/json/);
+});
+
+test('post requests to /api/blogs with no url should be rejected', async () => {
+  const newBlog = {
+    title: 'A New Test Blog',
+    author: 'Some guy',
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
+    .expect(400)
+    .expect('Content-Type', /application\/json/);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
