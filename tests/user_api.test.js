@@ -1,4 +1,6 @@
-const { test, after } = require('node:test');
+const { test, beforeEach, after } = require('node:test');
+const assert = require('node:assert');
+
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
@@ -29,8 +31,8 @@ test('users are returned as json', async () => {
 
 test('get should return the correct number of users', async () => {
   const response = await api.get('/api/users');
-  expect(response.body)
-    .toHaveLength(initialUsers.oneUser.length);
+
+  assert.strictEqual(response.body.length, initialUsers.oneUser.length);
 });
 
 after(async () => {

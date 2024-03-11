@@ -1,4 +1,6 @@
-const { test, after } = require('node:test');
+const { test, beforeEach, after } = require('node:test');
+const assert = require('node:assert');
+
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
@@ -29,8 +31,8 @@ test('blogs are returned as json', async () => {
 
 test('get should return the correct number of blog posts', async () => {
   const response = await api.get('/api/blogs');
-  expect(response.body)
-    .toHaveLength(initialBlogs.listWithManyBlogs.length);
+
+  assert.strictEqual(response.body.length, initialBlogs.listWithManyBlogs.length);
 });
 
 after(async () => {
