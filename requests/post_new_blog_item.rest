@@ -1,5 +1,6 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMGU1ZjM1OGI2NzM2NmU4MjE5ODUxIiwiaWF0IjoxNzEwMjg2Mzk4LCJleHAiOjE3MTAyODk5OTh9.1cHA9FG470GRzhH8gJ7InxL72_q4xjK3233hg5sBywg
 
 {
     "title": "Netflix Tech Blog",
@@ -10,6 +11,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMGU1ZjM1OGI2NzM2NmU4MjE5ODUxIiwiaWF0IjoxNzEwMjg2Mzk4LCJleHAiOjE3MTAyODk5OTh9.1cHA9FG470GRzhH8gJ7InxL72_q4xjK3233hg5sBywg
 
 {
     "title": "The GitHub Blog",
@@ -20,6 +22,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMGU1ZjM1OGI2NzM2NmU4MjE5ODUxIiwiaWF0IjoxNzEwMjg2Mzk4LCJleHAiOjE3MTAyODk5OTh9.1cHA9FG470GRzhH8gJ7InxL72_q4xjK3233hg5sBywg
 
 {
     "title": "PostgreSQL Blog",
@@ -30,6 +33,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMGU1ZjM1OGI2NzM2NmU4MjE5ODUxIiwiaWF0IjoxNzEwMjg2Mzk4LCJleHAiOjE3MTAyODk5OTh9.1cHA9FG470GRzhH8gJ7InxL72_q4xjK3233hg5sBywg
 
 {
     "title": "The Asia-Pacific Journal: Japan Focus",
@@ -40,6 +44,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYwZTVmMTU4YjY3MzY2ZTgyMTk4NGYiLCJpYXQiOjE3MTAyODY1MjcsImV4cCI6MTcxMDI5MDEyN30.SBRRngmoVfzWmw2o1Y1qKrTroU8w24YeIZdfaaAmZag
 
 {
     "title": "Tae Kim's Guide to Learning Japaneses",
@@ -50,6 +55,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYwZTVmMTU4YjY3MzY2ZTgyMTk4NGYiLCJpYXQiOjE3MTAyODY1MjcsImV4cCI6MTcxMDI5MDEyN30.SBRRngmoVfzWmw2o1Y1qKrTroU8w24YeIZdfaaAmZag
 
 {
     "title": "A methodological remark on mathematical induction",
@@ -60,6 +66,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYwZTVmMTU4YjY3MzY2ZTgyMTk4NGYiLCJpYXQiOjE3MTAyODY1MjcsImV4cCI6MTcxMDI5MDEyN30.SBRRngmoVfzWmw2o1Y1qKrTroU8w24YeIZdfaaAmZag
 
 {
     "title": "Has silver's place in China's fiscal and monetary system been overestimated?",
@@ -70,10 +77,21 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYwZTVmMTU4YjY3MzY2ZTgyMTk4NGYiLCJpYXQiOjE3MTAyODY1MjcsImV4cCI6MTcxMDI5MDEyN30.SBRRngmoVfzWmw2o1Y1qKrTroU8w24YeIZdfaaAmZag
 
 {
     "title": "Has China always been ruled by a Han elite?",
     "author": "Yitong Qiu",
     "url": "https://blogs.lse.ac.uk/economichistory/2022/11/11/has-china-always-been-ruled-by-a-han-elite/",
     "likes": 6
+}
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "No json web token and should be rejected by server",
+    "author": "No jwt",
+    "url": "https://why.is/there-no-jwt",
+    "likes": 0
 }
