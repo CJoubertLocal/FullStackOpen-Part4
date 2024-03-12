@@ -22,7 +22,7 @@ const getAllUsersInDB = async () => {
   return res;
 };
 
-describe.only('user tests with two users', () => {
+describe('user tests with two users', () => {
   beforeEach(async () => {
     await User.deleteMany({});
 
@@ -53,7 +53,7 @@ describe.only('user tests with two users', () => {
     assert.strictEqual(response.body[0].name, initialUsers.oneUser[0].name);
   });
 
-  describe.only('it should be possible to create new users', () => {
+  describe('it should be possible to create new users', () => {
     test('creating one user should be possible', async () => {
       const newUser = {
         name: 'a new name',
@@ -85,17 +85,22 @@ describe.only('user tests with two users', () => {
       assert(userExists);
     });
 
-    test.only('it should not be possible to create a user with the same username as an existing user', async () => {
+    test('it should not be possible to create a user with the same username as an existing user', async () => {
       const currentUsers = await getAllUsersInDB();
 
       const randomPositionInList = Math.floor(Math.random() * (currentUsers.body.length - 1));
       const randomUser = currentUsers.body[randomPositionInList];
+      const jsonToSend = {
+        username: randomUser.username,
+        name: randomUser.name,
+        password: 'somePassword',
+      };
 
       const res = await api
         .post('/api/users/')
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
-        .send(randomUser)
+        .send(jsonToSend)
         .expect(400)
         .expect('Content-Type', /application\/json/);
 
