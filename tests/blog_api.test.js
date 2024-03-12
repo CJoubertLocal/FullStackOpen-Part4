@@ -13,11 +13,17 @@ const Blog = require('../models/blogs');
 
 const api = supertest(app);
 
-const getRandomBlogPostFromDB = async () => {
+const getAllBlogsFromDB = async () => {
   const existingBlogs = await api
     .get('/api/blogs/')
     .expect(200)
     .expect('Content-Type', /application\/json/);
+
+  return existingBlogs;
+};
+
+const getRandomBlogPostFromDB = async () => {
+  const existingBlogs = await getAllBlogsFromDB();
 
   const randPosition = Math.floor(Math.random() * (existingBlogs.body.length - 1));
   return existingBlogs.body[randPosition];
@@ -53,7 +59,8 @@ describe('tests with an initial list of many blogs', () => {
     assert(!Object.keys(response.body[0]).includes('_id'));
   });
 
-  test('post to /api/blogs should create a new blog post', async () => {
+  test('post to /api/blogs/ should create a new blog post', async () => {
+    const blogsBeforeChange = await getAllBlogsFromDB();
     const newBlog = {
       title: 'A New Test Blog',
       author: 'Some guy',
@@ -74,7 +81,7 @@ describe('tests with an initial list of many blogs', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
 
-    assert.strictEqual(updatedBlogsList.body.length, initialBlogs.listWithManyBlogs.length + 1);
+    assert.strictEqual(updatedBlogsList.body.length, blogsBeforeChange.body.length + 1);
 
     let newBlogFound = false;
     // eslint-disable-next-line no-plusplus
@@ -92,7 +99,7 @@ describe('tests with an initial list of many blogs', () => {
     assert(newBlogFound);
   });
 
-  test('post to /api/blogs should default to 0 likes if no "likes" value was provided', async () => {
+  test('post to /api/blogs/ should default to 0 likes if no "likes" value was provided', async () => {
     const newBlog = {
       title: 'A New Test Blog',
       author: 'Some guy',

@@ -1,3 +1,6 @@
+/*
+  Run npm test --test-concurrency=1 to avoid race conditions when testing.
+*/
 const {
   test, beforeEach, describe, after,
 } = require('node:test');
@@ -38,7 +41,7 @@ const checkIfUserInList = (userJson, listOfUsersFromDB) => {
   return userInDB;
 };
 
-describe.only('user tests with two users', () => {
+describe('user tests with two users', () => {
   beforeEach(async () => {
     await User.deleteMany({});
 
@@ -65,12 +68,22 @@ describe.only('user tests with two users', () => {
   test('user in test database should have the correct username and name', async () => {
     const response = await api.get('/api/users');
 
-    assert.strictEqual(response.body[0].username, initialUsers.oneUser[0].username);
-    assert.strictEqual(response.body[0].name, initialUsers.oneUser[0].name);
+    let usernameAndNameCombinationExists = false;
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < response.body.length; i++) {
+      if (
+        response.body[i].username === initialUsers.oneUser[0].username
+        && response.body[i].name === initialUsers.oneUser[0].name
+      ) {
+        usernameAndNameCombinationExists = true;
+      }
+    }
+
+    assert(usernameAndNameCombinationExists);
   });
 
-  describe.only('it should be possible to create new users', () => {
-    test.only('creating one user should be possible', async () => {
+  describe('it should be possible to create new users', () => {
+    test('creating one user should be possible', async () => {
       const newUser = {
         name: 'a new name',
         username: 'a new username',
@@ -115,7 +128,7 @@ describe.only('user tests with two users', () => {
       assert.strictEqual(usersInDB.length, currentUsers.length);
     });
 
-    test.only('it should not be possible to create a user with a username shorter than 3 characters', async () => {
+    test('it should not be possible to create a user with a username shorter than 3 characters', async () => {
       const usersInDBAtStart = await getAllUsersInDB();
 
       const jsonToSend = {
@@ -138,7 +151,7 @@ describe.only('user tests with two users', () => {
       assert(!checkIfUserInList(jsonToSend, usersInDBAtEnd));
     });
 
-    test.only('it should not be possible to create a user with a password shorter than 3 characters', async () => {
+    test('it should not be possible to create a user with a password shorter than 3 characters', async () => {
       const usersInDBAtStart = await getAllUsersInDB();
 
       const jsonToSend = {
