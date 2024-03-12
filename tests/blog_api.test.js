@@ -19,7 +19,7 @@ const getRandomBlogPostFromDB = async () => {
     .expect(200)
     .expect('Content-Type', /application\/json/);
 
-  const randPosition = Math.floor(Math.random() * existingBlogs.body.length - 1);
+  const randPosition = Math.floor(Math.random() * (existingBlogs.body.length - 1));
   return existingBlogs.body[randPosition];
 };
 
