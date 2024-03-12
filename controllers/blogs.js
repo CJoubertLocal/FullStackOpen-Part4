@@ -1,31 +1,43 @@
 const blogRouter = require('express').Router();
 const Blog = require('../models/blogs');
+const User = require('../models/users');
 
 blogRouter.get('/', async (request, response) => {
   const allBlogs = await Blog
-    .find({});
+    .find({})
+    .populate('user', { username: 1, name: 1, id: 1 });
 
   return response.json(allBlogs);
 });
 
 blogRouter.get('/:id', async (request, response) => {
   const blogToGet = await Blog
-    .findById(request.params.id);
+    .findById(request.params.id)
+    .populate('user', { username: 1, name: 1, id: 1 });
 
   return response.status(200).json(blogToGet);
 });
 
 blogRouter.post('/', async (request, response) => {
-  const blog = new Blog(request.body);
+  const reqBody = request.body;
+  const users = await User.find({});
+  const user = users[0];
+
+  const blog = new Blog({
+    title: reqBody.title,
+    url: reqBody.url,
+    author: reqBody.author,
+    // eslint-disable-next-line no-underscore-dangle
+    user: user._id,
+  });
 
   try {
-    const res = await blog
-      .save()
-      .then((result) => {
-        response.status(201).json(result);
-      });
+    const result = await blog.save();
+    // eslint-disable-next-line no-underscore-dangle
+    user.blogs = user.blogs.concat(result._id);
+    await user.save();
 
-    return res;
+    return response.status(201).json(result);
   } catch (exception) {
     return response.status(400).json(exception);
   }
