@@ -23,7 +23,7 @@ const getRandomBlogPostFromDB = async () => {
   return existingBlogs.body[randPosition];
 };
 
-describe.only('tests with an initial list of many blogs', () => {
+describe('tests with an initial list of many blogs', () => {
   beforeEach(async () => {
     await Blog.deleteMany({});
 
@@ -154,8 +154,8 @@ describe.only('tests with an initial list of many blogs', () => {
       .expect('Content-Type', /application\/json/);
   });
 
-  describe.only('tests for viewing a specific blog', () => {
-    test.only('getting with the id of an existing blog should return the correct blog', async () => {
+  describe('tests for viewing a specific blog', () => {
+    test('getting with the id of an existing blog should return the correct blog', async () => {
       const particularBlogToGet = await getRandomBlogPostFromDB();
 
       const randomBlogExists = await api
@@ -181,8 +181,8 @@ describe.only('tests with an initial list of many blogs', () => {
     });
   });
 
-  describe.only('it should be possible to update the details of a blog post', () => {
-    test.only('update all fields of a blog post based on its ID value', async () => {
+  describe('it should be possible to update the details of a blog post', () => {
+    test('update all fields of a blog post based on its ID value', async () => {
       const particularBlogToGet = await getRandomBlogPostFromDB();
 
       const updatedBlogPost = {
@@ -210,8 +210,8 @@ describe.only('tests with an initial list of many blogs', () => {
     });
   });
 
-  describe.only('it should be possible to delete a blog post', async () => {
-    test.only('it should be possible to delete a blog post by its id value', async () => {
+  describe('it should be possible to delete a blog post', async () => {
+    test('it should be possible to delete a blog post by its id value', async () => {
       const blogPostToDelete = await getRandomBlogPostFromDB();
 
       await api

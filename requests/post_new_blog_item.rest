@@ -57,3 +57,13 @@ Content-Type: application/json
     "url": "https://www.cs.utexas.edu/~EWD/ewd10xx/EWD1004.PDF",
     "likes": 5
 }
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Has silver's place in China's fiscal and monetary system been overestimated?",
+    "author": "Junyi Jiang",
+    "url": "https://blogs.lse.ac.uk/economichistory/2023/11/24/has-silvers-place-in-chinas-fiscal-and-monetary-system-been-overestimated/",
+    "likes": 4
+}
