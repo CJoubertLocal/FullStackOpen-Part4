@@ -11,7 +11,8 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.get('/:id', async (request, response) => {
   const blogToGet = await Blog
     .findById(request.params.id);
-  response.status(200).json(blogToGet);
+
+  return response.status(200).json(blogToGet);
 });
 
 blogRouter.post('/', async (request, response) => {

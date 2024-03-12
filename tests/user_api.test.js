@@ -22,7 +22,23 @@ const getAllUsersInDB = async () => {
   return res;
 };
 
-describe('user tests with two users', () => {
+const checkIfUserInList = (userJson, listOfUsersFromDB) => {
+  let userInDB = false;
+
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < listOfUsersFromDB.body.length; i++) {
+    if (
+      listOfUsersFromDB.body[i].name === userJson.name
+      && listOfUsersFromDB.body[i].username === userJson.username
+    ) {
+      userInDB = true;
+    }
+  }
+
+  return userInDB;
+};
+
+describe.only('user tests with two users', () => {
   beforeEach(async () => {
     await User.deleteMany({});
 
@@ -53,8 +69,8 @@ describe('user tests with two users', () => {
     assert.strictEqual(response.body[0].name, initialUsers.oneUser[0].name);
   });
 
-  describe('it should be possible to create new users', () => {
-    test('creating one user should be possible', async () => {
+  describe.only('it should be possible to create new users', () => {
+    test.only('creating one user should be possible', async () => {
       const newUser = {
         name: 'a new name',
         username: 'a new username',
@@ -70,19 +86,7 @@ describe('user tests with two users', () => {
 
       const allUsers = await getAllUsersInDB();
 
-      let userExists = false;
-
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < allUsers.body.length; i++) {
-        if (
-          allUsers.body[i].name === newUser.name
-          && allUsers.body[i].username === newUser.username
-        ) {
-          userExists = true;
-        }
-      }
-
-      assert(userExists);
+      assert(checkIfUserInList(newUser, allUsers));
     });
 
     test('it should not be possible to create a user with the same username as an existing user', async () => {
@@ -109,6 +113,52 @@ describe('user tests with two users', () => {
       assert(res.body.error.includes('expected `username` to be unique'));
 
       assert.strictEqual(usersInDB.length, currentUsers.length);
+    });
+
+    test.only('it should not be possible to create a user with a username shorter than 3 characters', async () => {
+      const usersInDBAtStart = await getAllUsersInDB();
+
+      const jsonToSend = {
+        username: 'ab',
+        name: 'some name',
+        password: 'somePassword',
+      };
+
+      await api
+        .post('/api/users/')
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send(jsonToSend)
+        .expect(400);
+
+      const usersInDBAtEnd = await getAllUsersInDB();
+
+      assert.strictEqual(usersInDBAtStart.body.length, usersInDBAtEnd.body.length);
+
+      assert(!checkIfUserInList(jsonToSend, usersInDBAtEnd));
+    });
+
+    test.only('it should not be possible to create a user with a password shorter than 3 characters', async () => {
+      const usersInDBAtStart = await getAllUsersInDB();
+
+      const jsonToSend = {
+        username: 'someUserName',
+        name: 'some name',
+        password: 'sp',
+      };
+
+      await api
+        .post('/api/users/')
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send(jsonToSend)
+        .expect(400);
+
+      const usersInDBAtEnd = await getAllUsersInDB();
+
+      assert.strictEqual(usersInDBAtStart.body.length, usersInDBAtEnd.body.length);
+
+      assert(!checkIfUserInList(jsonToSend, usersInDBAtEnd));
     });
   });
 });
