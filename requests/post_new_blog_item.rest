@@ -67,3 +67,13 @@ Content-Type: application/json
     "url": "https://blogs.lse.ac.uk/economichistory/2023/11/24/has-silvers-place-in-chinas-fiscal-and-monetary-system-been-overestimated/",
     "likes": 4
 }
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Has China always been ruled by a Han elite?",
+    "author": "Yitong Qiu",
+    "url": "https://blogs.lse.ac.uk/economichistory/2022/11/11/has-china-always-been-ruled-by-a-han-elite/",
+    "likes": 6
+}
