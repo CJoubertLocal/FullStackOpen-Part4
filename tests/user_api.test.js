@@ -56,7 +56,10 @@ describe('user tests with two users', () => {
   });
 
   test('users are returned as json', async () => {
-    await getAllUsersInDB();
+    await api
+      .get('/api/users')
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
   });
 
   test('get should return the correct number of users', async () => {
