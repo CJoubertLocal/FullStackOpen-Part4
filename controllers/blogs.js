@@ -1,4 +1,5 @@
 const blogRouter = require('express').Router();
+const middleware = require('../utils/middleware');
 const Blog = require('../models/blogs');
 const User = require('../models/users');
 
@@ -18,7 +19,7 @@ blogRouter.get('/:id', async (request, response) => {
   return response.status(200).json(blogToGet);
 });
 
-blogRouter.post('/', async (request, response) => {
+blogRouter.post('/', middleware.userExtractor, async (request, response) => {
   const reqBody = request.body;
 
   const user = request.user;
@@ -44,7 +45,7 @@ blogRouter.post('/', async (request, response) => {
   }
 });
 
-blogRouter.put('/:id', async (request, response) => {
+blogRouter.put('/:id', middleware.userExtractor, async (request, response) => {
   const update = {
     title: request.body.title,
     author: request.body.author,
@@ -61,7 +62,7 @@ blogRouter.put('/:id', async (request, response) => {
   response.json(updatedBlog);
 });
 
-blogRouter.delete('/:id', async (request, response) => {
+blogRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
   const user = request.user;
 
   if (!user.blogs.includes(request.params.id)) {

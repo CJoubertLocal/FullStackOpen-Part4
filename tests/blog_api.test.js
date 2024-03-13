@@ -9,7 +9,9 @@ const app = require('../app');
 
 const initialBlogs = require('./testData');
 
+const initialLoginDetails = require('./testLoginDataPass');
 const Blog = require('../models/blogs');
+const User = require('../models/users');
 
 const api = supertest(app);
 
@@ -29,7 +31,24 @@ const getRandomBlogPostFromDB = async () => {
   return existingBlogs.body[randPosition];
 };
 
-describe('tests with an initial list of many blogs', () => {
+const getRandomLoginDetails = () => {
+  const randomNumber = Math.floor(Math.random() * (initialLoginDetails.twoUsers.length - 1));
+  return initialLoginDetails.twoUsers[randomNumber];
+};
+
+const getJWT = async () => {
+  const randomLoginCredentials = await getRandomLoginDetails();
+  const jwt = await api
+    .post('/api/login/')
+    .set('Accept', 'application/json')
+    .set('Content-Type', 'application/json')
+    .send(randomLoginCredentials)
+    .expect(200);
+
+  return jwt.body.token;
+};
+
+describe.only('tests with an initial list of many blogs', () => {
   beforeEach(async () => {
     await Blog.deleteMany({});
 
@@ -68,9 +87,12 @@ describe('tests with an initial list of many blogs', () => {
       likes: 2,
     };
 
+    const randomUserJWT = await getJWT();
+
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('authorization', 'Bearer '.concat(randomUserJWT))
       .set('Accept', 'application/json')
       .set('Content-Type', 'application/json')
       .expect(201)
@@ -106,9 +128,12 @@ describe('tests with an initial list of many blogs', () => {
       url: 'http://www.a-test-url.org/a-blog',
     };
 
+    const randomUserJWT = await getJWT();
+
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('authorization', 'Bearer '.concat(randomUserJWT))
       .set('Accept', 'application/json')
       .set('Content-Type', 'application/json')
       .expect(201)
@@ -137,9 +162,12 @@ describe('tests with an initial list of many blogs', () => {
       url: 'http://www.a-test-url.org/a-blog',
     };
 
+    const randomUserJWT = await getJWT();
+
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('authorization', 'Bearer '.concat(randomUserJWT))
       .set('Accept', 'application/json')
       .set('Content-Type', 'application/json')
       .expect(400)
@@ -152,9 +180,12 @@ describe('tests with an initial list of many blogs', () => {
       author: 'Some guy',
     };
 
+    const randomUserJWT = await getJWT();
+
     await api
       .post('/api/blogs')
       .send(newBlog)
+      .set('authorization', 'Bearer '.concat(randomUserJWT))
       .set('Accept', 'application/json')
       .set('Content-Type', 'application/json')
       .expect(400)
@@ -199,9 +230,12 @@ describe('tests with an initial list of many blogs', () => {
         likes: 0,
       };
 
+      const randomUserJWT = await getJWT();
+
       await api
         .put('/api/blogs/'.concat(particularBlogToGet.id))
         .send(updatedBlogPost)
+        .set('authorization', 'Bearer '.concat(randomUserJWT))
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json');
 
@@ -217,20 +251,56 @@ describe('tests with an initial list of many blogs', () => {
     });
   });
 
-  describe('it should be possible to delete a blog post', async () => {
-    test('it should be possible to delete a blog post by its id value', async () => {
-      const blogPostToDelete = await getRandomBlogPostFromDB();
+  describe.only('it should be possible to delete a blog post', async () => {
+    test.only('it should be possible to delete a blog post by its id value', async () => {
+      await User.deleteMany({});
+      const newUser = {
+        name: 'a new name',
+        username: 'a new username',
+        password: 'someNewPassword',
+      };
 
       await api
-        .delete('/api/blogs/'.concat(blogPostToDelete.id))
+        .post('/api/users/')
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send(newUser)
+        .expect(201);
+
+      const userJWT = await api
+        .post('/api/login/')
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .send(newUser)
+        .expect(200);
+
+      const newBlog = {
+        title: 'A New Test Blog',
+        author: 'Some guy',
+        url: 'http://www.a-test-url.org/a-blog',
+        likes: 2,
+      };
+
+      const newBlogRes = await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .set('authorization', 'Bearer '.concat(userJWT.body.token))
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .expect(201)
+        .expect('Content-Type', /application\/json/);
+
+      await api
+        .delete('/api/blogs/'.concat(newBlogRes.body.id))
+        .set('authorization', 'Bearer '.concat(userJWT.body.token))
         .expect(204);
 
       const res = await api
-        .get('/api/blogs/'.concat(blogPostToDelete.id))
+        .get('/api/blogs/'.concat(newBlogRes.body.id))
         .expect(200)
         .expect('Content-Type', /application\/json/);
 
-      assert.deepStrictEqual((await res).body, null);
+      assert.deepStrictEqual(res.body, null);
     });
   });
 });
