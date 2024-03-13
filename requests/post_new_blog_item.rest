@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMGU1ZjM1OGI2NzM2NmU4MjE5ODUxIiwiaWF0IjoxNzEwMjg2Mzk4LCJleHAiOjE3MTAyODk5OTh9.1cHA9FG470GRzhH8gJ7InxL72_q4xjK3233hg5sBywg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMWE2MjgxZmVhZmFkNGRlYmU2NGQzIiwiaWF0IjoxNzEwMzM1NTM3LCJleHAiOjE3MTAzMzkxMzd9.F9yhbGMd76Wy7qL-2Zys3qaMR93U0YAPdVChf3Z0NT0
 
 {
     "title": "Netflix Tech Blog",
@@ -11,7 +11,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMGU1ZjM1OGI2NzM2NmU4MjE5ODUxIiwiaWF0IjoxNzEwMjg2Mzk4LCJleHAiOjE3MTAyODk5OTh9.1cHA9FG470GRzhH8gJ7InxL72_q4xjK3233hg5sBywg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMWE2MjgxZmVhZmFkNGRlYmU2NGQzIiwiaWF0IjoxNzEwMzM1NTM3LCJleHAiOjE3MTAzMzkxMzd9.F9yhbGMd76Wy7qL-2Zys3qaMR93U0YAPdVChf3Z0NT0
 
 {
     "title": "The GitHub Blog",
@@ -22,7 +22,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMGU1ZjM1OGI2NzM2NmU4MjE5ODUxIiwiaWF0IjoxNzEwMjg2Mzk4LCJleHAiOjE3MTAyODk5OTh9.1cHA9FG470GRzhH8gJ7InxL72_q4xjK3233hg5sBywg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMWE2MjgxZmVhZmFkNGRlYmU2NGQzIiwiaWF0IjoxNzEwMzM1NTM3LCJleHAiOjE3MTAzMzkxMzd9.F9yhbGMd76Wy7qL-2Zys3qaMR93U0YAPdVChf3Z0NT0
 
 {
     "title": "PostgreSQL Blog",
@@ -33,7 +33,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMGU1ZjM1OGI2NzM2NmU4MjE5ODUxIiwiaWF0IjoxNzEwMjg2Mzk4LCJleHAiOjE3MTAyODk5OTh9.1cHA9FG470GRzhH8gJ7InxL72_q4xjK3233hg5sBywg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha2Ftb3RvIFJ5b3VtYSIsImlkIjoiNjVmMWE2MjgxZmVhZmFkNGRlYmU2NGQzIiwiaWF0IjoxNzEwMzM1NTM3LCJleHAiOjE3MTAzMzkxMzd9.F9yhbGMd76Wy7qL-2Zys3qaMR93U0YAPdVChf3Z0NT0
 
 {
     "title": "The Asia-Pacific Journal: Japan Focus",
@@ -41,10 +41,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNha
     "url": "https://apjjf.org/",
     "likes": 80
 }
+
+
+
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYwZTVmMTU4YjY3MzY2ZTgyMTk4NGYiLCJpYXQiOjE3MTAyODY1MjcsImV4cCI6MTcxMDI5MDEyN30.SBRRngmoVfzWmw2o1Y1qKrTroU8w24YeIZdfaaAmZag
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYxYTYyNjFmZWFmYWQ0ZGViZTY0ZDEiLCJpYXQiOjE3MTAzMzU2MDgsImV4cCI6MTcxMDMzOTIwOH0.MA_3SO_MSEWuXZCMp4v72aK4lXpumDpqECD2E3Lp9gU
 
 {
     "title": "Tae Kim's Guide to Learning Japaneses",
@@ -55,7 +58,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYwZTVmMTU4YjY3MzY2ZTgyMTk4NGYiLCJpYXQiOjE3MTAyODY1MjcsImV4cCI6MTcxMDI5MDEyN30.SBRRngmoVfzWmw2o1Y1qKrTroU8w24YeIZdfaaAmZag
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYxYTYyNjFmZWFmYWQ0ZGViZTY0ZDEiLCJpYXQiOjE3MTAzMzU2MDgsImV4cCI6MTcxMDMzOTIwOH0.MA_3SO_MSEWuXZCMp4v72aK4lXpumDpqECD2E3Lp9gU
 
 {
     "title": "A methodological remark on mathematical induction",
@@ -66,7 +69,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYwZTVmMTU4YjY3MzY2ZTgyMTk4NGYiLCJpYXQiOjE3MTAyODY1MjcsImV4cCI6MTcxMDI5MDEyN30.SBRRngmoVfzWmw2o1Y1qKrTroU8w24YeIZdfaaAmZag
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYxYTYyNjFmZWFmYWQ0ZGViZTY0ZDEiLCJpYXQiOjE3MTAzMzU2MDgsImV4cCI6MTcxMDMzOTIwOH0.MA_3SO_MSEWuXZCMp4v72aK4lXpumDpqECD2E3Lp9gU
 
 {
     "title": "Has silver's place in China's fiscal and monetary system been overestimated?",
@@ -77,7 +80,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYwZTVmMTU4YjY3MzY2ZTgyMTk4NGYiLCJpYXQiOjE3MTAzMjg2NTcsImV4cCI6MTcxMDMzMjI1N30.dyJWXuTdypgzOrWn9GjecHMvGeMGq2uEMnQME1Uc_Y0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYxYTYyNjFmZWFmYWQ0ZGViZTY0ZDEiLCJpYXQiOjE3MTAzMzc0NzAsImV4cCI6MTcxMDM0MTA3MH0.F0zfO4fgXTFrj2E1eujQn2Ugm7-b92YBsvBApMsEqkk
 
 {
     "title": "Has China always been ruled by a Han elite?",

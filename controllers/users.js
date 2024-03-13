@@ -33,4 +33,18 @@ usersRouter.post('/', async (request, response) => {
   return response.status(201).json(savedUser);
 });
 
+usersRouter.put('/:id', async (request, response) => {
+  const update = {
+    blogs: request.body.blogs,
+  };
+
+  const updatedUser = await User
+    .findOneAndUpdate({ _id: request.params.id }, update, {
+      new: true,
+      runValidators: true,
+      context: 'query',
+    });
+  response.json(updatedUser);
+});
+
 module.exports = usersRouter;

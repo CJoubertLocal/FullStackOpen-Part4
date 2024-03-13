@@ -1,0 +1,22 @@
+PUT http://localhost:3003/api/users/65f1a6261feafad4debe64d1
+Content-Type: application/json
+
+{
+    "blogs": [
+        "65f1a6871feafad4debe64e8",
+        "65f1a68b1feafad4debe64ec",
+        "65f1a68e1feafad4debe64f0"
+    ]
+}
+###
+PUT http://localhost:3003/api/users/65f1a6261feafad4debe64d1
+Content-Type: application/json
+
+{
+    "blogs": [
+        "65f1a6871feafad4debe64e8",
+        "65f1a68b1feafad4debe64ec",
+        "65f1a68e1feafad4debe64f0",
+        "65f1a6911feafad4debe64f4"
+    ]
+}
