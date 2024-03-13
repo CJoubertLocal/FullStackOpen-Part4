@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const blogRouter = require('express').Router();
 const Blog = require('../models/blogs');
 const User = require('../models/users');
@@ -22,11 +21,7 @@ blogRouter.get('/:id', async (request, response) => {
 blogRouter.post('/', async (request, response) => {
   const reqBody = request.body;
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET);
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'invalid token' });
-  }
-  const user = await User.findById(decodedToken.id);
+  const user = request.user;
 
   const blog = new Blog({
     title: reqBody.title,
@@ -67,11 +62,7 @@ blogRouter.put('/:id', async (request, response) => {
 });
 
 blogRouter.delete('/:id', async (request, response) => {
-  const decodedToken = jwt.verify(request.token, process.env.SECRET);
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'invalid token' });
-  }
-  const user = await User.findById(decodedToken.id);
+  const user = request.user;
 
   if (!user.blogs.includes(request.params.id)) {
     return response.status(401).json({ error: 'one can only delete a blog which one created' });

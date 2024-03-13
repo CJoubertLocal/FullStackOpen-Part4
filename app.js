@@ -20,7 +20,7 @@ const LoginRouter = require('./controllers/login');
 app.use(middleware.tokenExtractor);
 app.use(middleware.requestLogger);
 
-app.use('/api/blogs', BlogRouter);
+app.use('/api/blogs', middleware.userExtractor, BlogRouter);
 app.use('/api/users', UserRouter);
 app.use('/api/login', LoginRouter);
 

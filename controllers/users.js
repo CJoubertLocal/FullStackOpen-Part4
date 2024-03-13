@@ -5,7 +5,15 @@ const User = require('../models/users');
 usersRouter.get('/', async (request, response) => {
   const allUsers = await User
     .find({})
-    .populate('blogs', { url: 1, title: 1, author: 1, id: 1 });
+    .populate(
+      'blogs',
+      {
+        url: 1,
+        title: 1,
+        author: 1,
+        id: 1,
+      },
+    );
 
   return response.json(allUsers);
 });

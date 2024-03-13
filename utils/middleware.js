@@ -3,7 +3,9 @@
 
   https://github.com/fullstack-hy2020/part3-notes-backend/blob/part4-8/utils/middleware.js
 */
+const jwt = require('jsonwebtoken');
 const logger = require('./logger');
+const User = require('../models/users');
 
 const requestLogger = (request, response, next) => {
   logger.info('Method:', request.method);
@@ -19,6 +21,17 @@ const tokenExtractor = (request, response, next) => {
     auth = auth.replace('Bearer ', '');
     request.token = auth;
   }
+
+  next();
+};
+
+const userExtractor = async (request, response, next) => {
+  const decodedToken = jwt.verify(request.token, process.env.SECRET);
+
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'invalid token' });
+  }
+  request.user = await User.findById(decodedToken.id);
 
   next();
 };
@@ -66,5 +79,6 @@ module.exports = {
   requestLogger,
   unknownEndpoint,
   tokenExtractor,
+  userExtractor,
   errorHandler,
 };
