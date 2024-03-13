@@ -1,3 +1,28 @@
+/*
+  logger code and unknown endpoint code from:
+
+  https://github.com/fullstack-hy2020/part3-notes-backend/blob/part4-8/utils/middleware.js
+*/
+const logger = require('./logger');
+
+const requestLogger = (request, response, next) => {
+  logger.info('Method:', request.method);
+  logger.info('Path:  ', request.path);
+  logger.info('Body:  ', request.body);
+  logger.info('---');
+  next();
+};
+
+const tokenExtractor = (request, response, next) => {
+  let auth = request.get('authorization');
+  if (auth && auth.startsWith('Bearer ')) {
+    auth = auth.replace('Bearer ', '');
+    request.token = auth;
+  }
+
+  next();
+};
+
 const errorHandler = (error, request, response, next) => {
   console.log('errorhandler');
   console.error(error.message);
@@ -33,6 +58,13 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' });
+};
+
 module.exports = {
+  requestLogger,
+  unknownEndpoint,
+  tokenExtractor,
   errorHandler,
 };

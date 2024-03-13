@@ -77,7 +77,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYwZTVmMTU4YjY3MzY2ZTgyMTk4NGYiLCJpYXQiOjE3MTAyODY1MjcsImV4cCI6MTcxMDI5MDEyN30.SBRRngmoVfzWmw2o1Y1qKrTroU8w24YeIZdfaaAmZag
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QgcmVzdCB1c2VyIiwiaWQiOiI2NWYwZTVmMTU4YjY3MzY2ZTgyMTk4NGYiLCJpYXQiOjE3MTAzMjg2NTcsImV4cCI6MTcxMDMzMjI1N30.dyJWXuTdypgzOrWn9GjecHMvGeMGq2uEMnQME1Uc_Y0
 
 {
     "title": "Has China always been ruled by a Han elite?",
